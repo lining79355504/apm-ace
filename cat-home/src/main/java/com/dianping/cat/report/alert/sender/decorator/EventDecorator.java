@@ -16,7 +16,7 @@ import com.dianping.cat.report.alert.sender.AlertEntity;
 import freemarker.template.Configuration;
 import freemarker.template.Template;
 
-public class EventDecorator extends Decorator implements Initializable {
+public class EventDecorator extends ProjectDecorator implements Initializable {
 
 	public static final String ID = AlertType.Event.getName();
 
@@ -35,6 +35,7 @@ public class EventDecorator extends Decorator implements Initializable {
 		datas.put("content", alert.getContent());
 		datas.put("date", m_format.format(alert.getDate()));
 		datas.put("linkDate", m_linkFormat.format(alert.getDate()));
+		datas.put("contactInfo", buildContactInfo(alert.getGroup()));
 
 		StringWriter sw = new StringWriter(5000);
 

@@ -32,6 +32,20 @@ public class HeartbeatExtenstion implements StatusExtension, Initializable {
 	@Override
 	public void initialize() throws InitializationException {
 		StatusExtensionRegister.getInstance().register(this);
+
+		StatusExtensionRegister.getInstance().register(new StatusExtension(){
+			public String getId() {
+				return "test";
+			}
+
+			public String getDescription() {
+				return "test";
+			}
+
+			public Map<String, String> getProperties() {
+				return new HashMap<String, String>();
+			}
+		});
 	}
 
 }

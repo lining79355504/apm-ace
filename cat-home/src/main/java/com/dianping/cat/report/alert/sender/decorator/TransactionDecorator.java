@@ -16,7 +16,7 @@ import com.dianping.cat.report.alert.sender.AlertEntity;
 import freemarker.template.Configuration;
 import freemarker.template.Template;
 
-public class TransactionDecorator extends Decorator implements Initializable {
+public class TransactionDecorator extends ProjectDecorator implements Initializable {
 
 	public static final String ID = AlertType.Transaction.getName();
 
@@ -28,6 +28,7 @@ public class TransactionDecorator extends Decorator implements Initializable {
 	public String generateContent(AlertEntity alert) {
 		Map<Object, Object> datas = new HashMap<Object, Object>();
 		String[] fields = alert.getMetric().split("-");
+		String contactInfo = buildContactInfo(alert.getGroup());
 
 		datas.put("domain", alert.getGroup());
 		datas.put("type", fields[0]);
@@ -35,6 +36,8 @@ public class TransactionDecorator extends Decorator implements Initializable {
 		datas.put("content", alert.getContent());
 		datas.put("date", m_format.format(alert.getDate()));
 		datas.put("linkDate", m_linkFormat.format(alert.getDate()));
+		datas.put("contactInfo", contactInfo);
+
 
 		StringWriter sw = new StringWriter(5000);
 
