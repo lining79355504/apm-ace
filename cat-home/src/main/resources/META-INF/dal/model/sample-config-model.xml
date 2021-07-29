@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<model model-package="com.dianping.cat.sample" enable-sax-parser="true">
+    <entity name="sample-config" root="true">
+        <entity-ref name="domain" type="map" names="domains" />
+    </entity>
+    <entity name="domain">
+        <attribute name="id" value-type="String" key="true"/>
+        <attribute name="sample" value-type="double" primitive="true" />
+        <attribute name="share" value-type="int" primitive="true" default-value="1"/>
+        <attribute name="block" value-type="boolean" primitive="true" default-value="false"/>
+        <attribute name="multiInstances" value-type="boolean" primitive="true" default-value="false"/>
+        <entity-ref name="ip" type="map" names="ips" method-find-or-create="true"/>
+    </entity>
+    <entity name="ip">
+        <attribute name="id" value-type="String" key="true"/>
+        <attribute name="sample" value-type="double"/>
+        <attribute name="multiInstances" value-type="boolean" primitive="true" default-value="false"/>
+    </entity>
+</model>
