@@ -1,16 +1,31 @@
 package com.dianping.cat.consumer.problem;
 
+import com.dianping.cat.consumer.dump.LocalMessageBucketManager;
+import com.dianping.cat.consumer.problem.model.entity.*;
+import com.dianping.cat.consumer.storage.LogViewLongPeriodContentManager;
+import com.dianping.cat.core.dal.LogviewlongperiodcontentDao;
+import com.dianping.cat.message.Message;
+import com.dianping.cat.message.spi.MessageCodec;
+import com.dianping.cat.message.spi.MessageTree;
+import com.dianping.cat.message.spi.codec.PlainTextMessageCodec;
+import org.unidal.lookup.annotation.Inject;
+
 import java.util.List;
 
-import com.dianping.cat.consumer.problem.model.entity.Duration;
-import com.dianping.cat.consumer.problem.model.entity.Entity;
-import com.dianping.cat.consumer.problem.model.entity.JavaThread;
-import com.dianping.cat.consumer.problem.model.entity.Machine;
-import com.dianping.cat.consumer.problem.model.entity.Segment;
-import com.dianping.cat.message.Message;
-import com.dianping.cat.message.spi.MessageTree;
-
 public abstract class ProblemHandler {
+
+	@Inject
+	private LogViewLongPeriodContentManager logViewLongPeriodContentManager;
+
+	@Inject
+	private LocalMessageBucketManager m_bucketManager;
+
+	@Inject
+	private LogviewlongperiodcontentDao logviewlongperiodcontentDao;
+
+	@Inject(PlainTextMessageCodec.ID)
+	private MessageCodec messageCodec;
+
 	public static final int MAX_LOG_SIZE = 60;
 
 	protected Entity findOrCreateEntity(Machine machine, String type, String status) {
@@ -38,6 +53,8 @@ public abstract class ProblemHandler {
 		duration.incCount();
 		if (messages.size() < MAX_LOG_SIZE) {
 			messages.add(tree.getMessageId());
+			//// TODO: 2021/9/23 可以改为每分钟采样数据
+			logViewLongPeriodContentManager.enqueue(tree);
 		}
 
 		// make problem thread id = thread group name, make report small
@@ -56,6 +73,11 @@ public abstract class ProblemHandler {
 		segment.incCount();
 		if (segmentMessages.size() < MAX_LOG_SIZE) {
 			segmentMessages.add(tree.getMessageId());
+			//add long period duration logView store
+
+			//add long period duration logView store
+//			logviewLongDurationStore(tree);
+			logViewLongPeriodContentManager.enqueue(tree);
 		}
 	}
 }

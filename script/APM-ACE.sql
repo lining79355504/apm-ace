@@ -629,6 +629,26 @@ CREATE TABLE `weekly_report_content` (
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 ROW_FORMAT=COMPRESSED COMMENT='周报表二进制内容';
 /*!40101 SET character_set_client = @saved_cs_client */;
 
+
+--
+-- Table structure for table `logview_long_period_content`
+--
+DROP TABLE IF EXISTS `logview_long_period_content`;
+CREATE TABLE `logview_long_period_content`
+(
+    `id`         bigint unsigned NOT NULL AUTO_INCREMENT,
+    `domain`     varchar(256)    NOT NULL DEFAULT '',
+    `message_id` varchar(256)             DEFAULT NULL,
+    `content`    longblob        NOT NULL,
+    `ctime`      datetime                 DEFAULT NULL,
+    `mtime`      datetime                 DEFAULT NULL,
+    PRIMARY KEY (`id`),
+    UNIQUE KEY `idx_message_id` (`message_id`)
+) ENGINE = InnoDB
+  AUTO_INCREMENT = 5504
+  DEFAULT CHARSET = utf8mb4
+  COLLATE = utf8mb4_0900_ai_ci;
+
 --
 -- Table structure for table `weeklyreport`
 --

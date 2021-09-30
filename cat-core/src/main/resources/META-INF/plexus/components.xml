@@ -349,6 +349,15 @@
 			</configuration>
 		</component>
 		<component>
+			<role>org.unidal.dal.jdbc.mapping.TableProvider</role>
+			<role-hint>logviewlongperiodcontent</role-hint>
+			<implementation>org.unidal.dal.jdbc.mapping.SimpleTableProvider</implementation>
+			<configuration>
+				<physical-table-name>logview_long_period_content</physical-table-name>
+				<data-source-name>cat</data-source-name>
+			</configuration>
+		</component>
+		<component>
 			<role>com.dianping.cat.core.dal.DailyReportContentDao</role>
 			<implementation>com.dianping.cat.core.dal.DailyReportContentDao</implementation>
 			<requirements>
@@ -459,6 +468,15 @@
 		<component>
 			<role>com.dianping.cat.core.dal.WeeklyReportDao</role>
 			<implementation>com.dianping.cat.core.dal.WeeklyReportDao</implementation>
+			<requirements>
+				<requirement>
+					<role>org.unidal.dal.jdbc.QueryEngine</role>
+				</requirement>
+			</requirements>
+		</component>
+		<component>
+			<role>com.dianping.cat.core.dal.LogviewlongperiodcontentDao</role>
+			<implementation>com.dianping.cat.core.dal.LogviewlongperiodcontentDao</implementation>
 			<requirements>
 				<requirement>
 					<role>org.unidal.dal.jdbc.QueryEngine</role>

@@ -1,14 +1,29 @@
 package com.dianping.cat.consumer.dump;
 
+import com.dianping.cat.Cat;
+import com.dianping.cat.CatConstants;
+import com.dianping.cat.config.server.ServerConfigManager;
+import com.dianping.cat.configuration.NetworkInterfaceManager;
+import com.dianping.cat.core.dal.Logviewlongperiodcontent;
+import com.dianping.cat.core.dal.LogviewlongperiodcontentDao;
+import com.dianping.cat.core.dal.LogviewlongperiodcontentEntity;
+import com.dianping.cat.hadoop.hdfs.HdfsUploader;
+import com.dianping.cat.message.Message;
+import com.dianping.cat.message.MessageProducer;
+import com.dianping.cat.message.PathBuilder;
+import com.dianping.cat.message.Transaction;
+import com.dianping.cat.message.internal.MessageId;
+import com.dianping.cat.message.spi.MessageCodec;
+import com.dianping.cat.message.spi.MessageTree;
+import com.dianping.cat.message.spi.codec.PlainTextMessageCodec;
+import com.dianping.cat.message.spi.internal.DefaultMessageTree;
+import com.dianping.cat.message.storage.LocalMessageBucket;
+import com.dianping.cat.message.storage.MessageBlock;
+import com.dianping.cat.message.storage.MessageBucket;
+import com.dianping.cat.message.storage.MessageBucketManager;
+import com.dianping.cat.statistic.ServerStatisticManager;
 import io.netty.buffer.ByteBuf;
-
-import java.io.File;
-import java.util.ArrayList;
-import java.util.Date;
-import java.util.List;
-import java.util.concurrent.*;
-import java.util.concurrent.locks.LockSupport;
-
+import io.netty.buffer.ByteBufAllocator;
 import org.codehaus.plexus.logging.LogEnabled;
 import org.codehaus.plexus.logging.Logger;
 import org.codehaus.plexus.personality.plexus.lifecycle.phase.Initializable;
@@ -20,23 +35,15 @@ import org.unidal.helper.Threads.Task;
 import org.unidal.lookup.ContainerHolder;
 import org.unidal.lookup.annotation.Inject;
 
-import com.dianping.cat.Cat;
-import com.dianping.cat.CatConstants;
-import com.dianping.cat.config.server.ServerConfigManager;
-import com.dianping.cat.configuration.NetworkInterfaceManager;
-import com.dianping.cat.hadoop.hdfs.HdfsUploader;
-import com.dianping.cat.message.Message;
-import com.dianping.cat.message.PathBuilder;
-import com.dianping.cat.message.MessageProducer;
-import com.dianping.cat.message.Transaction;
-import com.dianping.cat.message.internal.MessageId;
-import com.dianping.cat.message.spi.MessageTree;
-import com.dianping.cat.message.spi.internal.DefaultMessageTree;
-import com.dianping.cat.message.storage.LocalMessageBucket;
-import com.dianping.cat.message.storage.MessageBlock;
-import com.dianping.cat.message.storage.MessageBucket;
-import com.dianping.cat.message.storage.MessageBucketManager;
-import com.dianping.cat.statistic.ServerStatisticManager;
+import java.io.File;
+import java.util.ArrayList;
+import java.util.Date;
+import java.util.List;
+import java.util.concurrent.BlockingQueue;
+import java.util.concurrent.ConcurrentHashMap;
+import java.util.concurrent.LinkedBlockingQueue;
+import java.util.concurrent.TimeUnit;
+import java.util.concurrent.locks.LockSupport;
 
 public class LocalMessageBucketManager extends ContainerHolder implements MessageBucketManager, Initializable,
       LogEnabled {
@@ -54,9 +61,13 @@ public class LocalMessageBucketManager extends ContainerHolder implements Messag
 	@Inject
 	private HdfsUploader m_logviewUploader;
 
-	//解决高版本jdk编译 低版本jdk运行时报  java.lang.NoSuchMethodError: java.util.concurrent.ConcurrentHashMap.keySet()Ljava/util/concurrent/ConcurrentHashMap$KeySetView;
-//	private ConcurrentHashMap<String, LocalMessageBucket> m_buckets = new ConcurrentHashMap<String, LocalMessageBucket>();
-	private ConcurrentMap<String, LocalMessageBucket> m_buckets = new ConcurrentHashMap<String, LocalMessageBucket>();
+	@Inject
+	private LogviewlongperiodcontentDao logviewlongperiodcontentDao;
+
+	@Inject(PlainTextMessageCodec.ID)
+	private MessageCodec messageCodec;
+
+	private ConcurrentHashMap<String, LocalMessageBucket> m_buckets = new ConcurrentHashMap<String, LocalMessageBucket>();
 
 	private File m_baseDir;
 
@@ -201,7 +212,12 @@ public class LocalMessageBucketManager extends ContainerHolder implements Messag
 					}
 				}
 			}
-			return null;
+			//add long duration logview search
+			Logviewlongperiodcontent logviewlongperiodcontents = logviewlongperiodcontentDao.selectByMsgId(messageId, LogviewlongperiodcontentEntity.READSET_FULL);
+			byte[] logviewByteFromDb = logviewlongperiodcontents.getContent();
+			ByteBuf buf = ByteBufAllocator.DEFAULT.buffer(logviewByteFromDb.length);
+			buf.writeBytes(logviewByteFromDb);
+			return messageCodec.decode(buf);
 		} catch (Throwable e) {
 			t.setStatus(e);
 			cat.logError(e);

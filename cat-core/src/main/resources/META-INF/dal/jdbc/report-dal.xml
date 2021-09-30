@@ -620,4 +620,24 @@
 		</query>
      </query-defs>
     </entity>
+
+	<entity name="logviewlongperiodcontent" table="logview_long_period_content" alias="drc">
+		<var name="msg-id" value-type="String"/>
+		<readsets>
+			<readset name="CONTENT">
+				<member name="content" />
+			</readset>
+		</readsets>
+		<query-defs>
+			<query name="select-by-msg-id" type="SELECT" multiple="false">
+				<param name="msg-id"/>
+				<statement><![CDATA[
+				SELECT <FIELDS/>
+				FROM <TABLE/>
+				WHERE <FIELD name='message-id' /> =  ${msg-id}
+				]]></statement>
+			</query>
+		</query-defs>
+	</entity>
+
 </entities>

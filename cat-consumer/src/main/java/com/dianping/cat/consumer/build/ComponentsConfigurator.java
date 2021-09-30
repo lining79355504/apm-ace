@@ -4,6 +4,10 @@ import java.util.ArrayList;
 import java.util.Collection;
 import java.util.List;
 
+import com.dianping.cat.consumer.storage.*;
+import com.dianping.cat.core.dal.LogviewlongperiodcontentDao;
+import com.dianping.cat.message.spi.MessageCodec;
+import com.dianping.cat.message.spi.codec.PlainTextMessageCodec;
 import org.unidal.dal.jdbc.configuration.AbstractJdbcResourceConfigurator;
 import org.unidal.initialization.Module;
 import org.unidal.lookup.configuration.Component;
@@ -40,9 +44,6 @@ import com.dianping.cat.consumer.problem.ProblemDelegate;
 import com.dianping.cat.consumer.problem.ProblemHandler;
 import com.dianping.cat.consumer.state.StateAnalyzer;
 import com.dianping.cat.consumer.state.StateDelegate;
-import com.dianping.cat.consumer.storage.StorageAnalyzer;
-import com.dianping.cat.consumer.storage.StorageDelegate;
-import com.dianping.cat.consumer.storage.StorageReportUpdater;
 import com.dianping.cat.consumer.top.TopAnalyzer;
 import com.dianping.cat.consumer.top.TopDelegate;
 import com.dianping.cat.consumer.transaction.TransactionAnalyzer;
@@ -88,6 +89,17 @@ public class ComponentsConfigurator extends AbstractJdbcResourceConfigurator {
 
 		all.add(C(AllReportConfigManager.class).req(ConfigDao.class, ContentFetcher.class));
 
+
+		all.add(C(LogViewLongPeriodStore.class, LogViewLongPeriodDBStore.ID, LogViewLongPeriodDBStore.class)
+				.is(PER_LOOKUP)
+				.req(MessageBucketManager.class, LocalMessageBucketManager.ID)
+				.req(MessageCodec.class, PlainTextMessageCodec.ID)
+				.req(LogviewlongperiodcontentDao.class));
+
+		all.add(C(LogViewLongPeriodStore.class, LogViewLongPeriodEsStore.ID, LogViewLongPeriodEsStore.class));
+
+		all.add(C(LogViewLongPeriodContentManager.class));
+
 		all.add(C(Module.class, CatConsumerModule.ID, CatConsumerModule.class));
 		all.addAll(new CatDatabaseConfigurator().defineComponents());
 		return all;
@@ -128,12 +140,15 @@ public class ComponentsConfigurator extends AbstractJdbcResourceConfigurator {
 	private Collection<Component> defineDumpComponents() {
 		final List<Component> all = new ArrayList<Component>();
 		all.add(C(MessageAnalyzer.class, DumpAnalyzer.ID, DumpAnalyzer.class).is(PER_LOOKUP) //
-		      .req(ServerStatisticManager.class, ServerConfigManager.class) //
-		      .req(MessageBucketManager.class, LocalMessageBucketManager.ID));
+				.req(ServerStatisticManager.class, ServerConfigManager.class) //
+				.req(MessageBucketManager.class, LocalMessageBucketManager.ID));
 
 		all.add(C(MessageBucketManager.class, LocalMessageBucketManager.ID, LocalMessageBucketManager.class) //
-		      .req(ServerConfigManager.class, PathBuilder.class, ServerStatisticManager.class)//
-		      .req(HdfsUploader.class));
+				.req(ServerConfigManager.class, PathBuilder.class, ServerStatisticManager.class)//
+				.is(PER_LOOKUP)
+				.req(MessageCodec.class, PlainTextMessageCodec.ID)
+				.req(LogviewlongperiodcontentDao.class)
+				.req(HdfsUploader.class));
 
 		return all;
 	}
@@ -203,21 +218,29 @@ public class ComponentsConfigurator extends AbstractJdbcResourceConfigurator {
 		final String ID = ProblemAnalyzer.ID;
 
 		all.add(C(ProblemHandler.class, DefaultProblemHandler.ID, DefaultProblemHandler.class)//
-		      .config(E("errorType").value("Error,RuntimeException,Exception"))//
-		      .req(ServerConfigManager.class));
+				.config(E("errorType").value("Error,RuntimeException,Exception"))//
+				.req(ServerConfigManager.class).req(MessageBucketManager.class, LocalMessageBucketManager.ID)
+				.is(PER_LOOKUP)
+				.req(MessageCodec.class, PlainTextMessageCodec.ID)
+				.req(LogViewLongPeriodContentManager.class)
+				.req(LogviewlongperiodcontentDao.class)); //);
 
 		all.add(C(ProblemHandler.class, LongExecutionProblemHandler.ID, LongExecutionProblemHandler.class) //
-		      .req(ServerConfigManager.class));
+				.req(ServerConfigManager.class).req(MessageBucketManager.class, LocalMessageBucketManager.ID)
+				.is(PER_LOOKUP)
+				.req(MessageCodec.class, PlainTextMessageCodec.ID)
+				.req(LogViewLongPeriodContentManager.class)
+				.req(LogviewlongperiodcontentDao.class)); //);
 
 		all.add(C(MessageAnalyzer.class, ID, ProblemAnalyzer.class).is(PER_LOOKUP) //
-		      .req(ReportManager.class, ID).req(ServerConfigManager.class).req(ProblemHandler.class, //
-		            new String[] { DefaultProblemHandler.ID, LongExecutionProblemHandler.ID }, "m_handlers"));
+				.req(ReportManager.class, ID).req(ServerConfigManager.class).req(ProblemHandler.class, //
+						new String[] { DefaultProblemHandler.ID, LongExecutionProblemHandler.ID }, "m_handlers"));
 		all.add(C(ReportManager.class, ID, DefaultReportManager.class).is(PER_LOOKUP) //
-		      .req(ReportDelegate.class, ID) //
-		      .req(ReportBucketManager.class, HourlyReportDao.class, HourlyReportContentDao.class, DomainValidator.class) //
-		      .config(E("name").value(ID)));
+				.req(ReportDelegate.class, ID) //
+				.req(ReportBucketManager.class, HourlyReportDao.class, HourlyReportContentDao.class, DomainValidator.class) //
+				.config(E("name").value(ID)));
 		all.add(C(ReportDelegate.class, ID, ProblemDelegate.class) //
-		      .req(TaskManager.class, ServerFilterConfigManager.class));
+				.req(TaskManager.class, ServerFilterConfigManager.class));
 
 		return all;
 	}
