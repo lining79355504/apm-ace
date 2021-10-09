@@ -2,6 +2,7 @@ package com.dianping.cat.consumer.dump;
 
 import com.dianping.cat.Cat;
 import com.dianping.cat.CatConstants;
+import com.dianping.cat.common.utils.GzipUtils;
 import com.dianping.cat.config.server.ServerConfigManager;
 import com.dianping.cat.configuration.NetworkInterfaceManager;
 import com.dianping.cat.core.dal.Logviewlongperiodcontent;
@@ -215,8 +216,9 @@ public class LocalMessageBucketManager extends ContainerHolder implements Messag
 			//add long duration logview search
 			Logviewlongperiodcontent logviewlongperiodcontents = logviewlongperiodcontentDao.selectByMsgId(messageId, LogviewlongperiodcontentEntity.READSET_FULL);
 			byte[] logviewByteFromDb = logviewlongperiodcontents.getContent();
-			ByteBuf buf = ByteBufAllocator.DEFAULT.buffer(logviewByteFromDb.length);
-			buf.writeBytes(logviewByteFromDb);
+			byte[] decompressedLogview = GzipUtils.decompress(logviewByteFromDb);
+			ByteBuf buf = ByteBufAllocator.DEFAULT.buffer(decompressedLogview.length);
+			buf.writeBytes(decompressedLogview);
 			return messageCodec.decode(buf);
 		} catch (Throwable e) {
 			t.setStatus(e);

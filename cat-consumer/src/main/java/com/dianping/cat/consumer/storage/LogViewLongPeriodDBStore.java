@@ -11,8 +11,14 @@ import com.google.common.eventbus.Subscribe;
 import io.netty.buffer.ByteBuf;
 import io.netty.buffer.ByteBufAllocator;
 import org.unidal.lookup.annotation.Inject;
-
+import com.dianping.cat.common.utils.GzipUtils;
+import java.io.ByteArrayInputStream;
+import java.io.ByteArrayOutputStream;
+import java.io.DataInputStream;
+import java.io.IOException;
 import java.util.Date;
+import java.util.zip.GZIPInputStream;
+import java.util.zip.GZIPOutputStream;
 
 /**
  * @author mort
@@ -48,6 +54,8 @@ public class LogViewLongPeriodDBStore  implements LogViewLongPeriodStore {
                 }
                 byte[] bytes = new byte[buf.readableBytes()];
                 buf.readBytes(bytes);
+                //gzip 压缩
+                byte[] compressedBytes = GzipUtils.compress(bytes);
 
                 Logviewlongperiodcontent content = logviewlongperiodcontentDao.createLocal();
                 content.setMessageId(tree.getMessageId());
@@ -55,8 +63,7 @@ public class LogViewLongPeriodDBStore  implements LogViewLongPeriodStore {
                 //分区字段 防止messageId重复 设置为消息的产生时间
                 content.setCtime(new Date(tree.getMessage().getTimestamp()));
                 content.setMtime(new Date());
-                content.setContent(bytes);
-
+                content.setContent(compressedBytes);
                 logviewlongperiodcontentDao.insertIgnore(content);
             } catch (Exception e) {
                 Cat.logError(e);

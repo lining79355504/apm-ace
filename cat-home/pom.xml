@@ -23,10 +23,6 @@
          <artifactId>WebResServer</artifactId>
       </dependency>
       <dependency>
-         <groupId>com.dianping.cat</groupId>
-         <artifactId>common-utils</artifactId>
-      </dependency>
-      <dependency>
          <groupId>org.unidal.framework</groupId>
          <artifactId>web-framework</artifactId>
          <exclusions>

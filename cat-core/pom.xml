@@ -58,6 +58,10 @@
          <groupId>com.google.code.gson</groupId>
          <artifactId>gson</artifactId>
       </dependency>
+      <dependency>
+         <groupId>com.dianping.cat</groupId>
+         <artifactId>common-utils</artifactId>
+      </dependency>
    </dependencies>
    <build>
       <plugins>
