@@ -52,7 +52,8 @@ public class LogViewLongPeriodDBStore  implements LogViewLongPeriodStore {
                 Logviewlongperiodcontent content = logviewlongperiodcontentDao.createLocal();
                 content.setMessageId(tree.getMessageId());
                 content.setDomain(tree.getDomain());
-                content.setCtime(new Date());
+                //分区字段 防止messageId重复 设置为消息的产生时间
+                content.setCtime(new Date(tree.getMessage().getTimestamp()));
                 content.setMtime(new Date());
                 content.setContent(bytes);
 

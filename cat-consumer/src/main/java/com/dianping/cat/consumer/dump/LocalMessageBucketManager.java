@@ -220,7 +220,7 @@ public class LocalMessageBucketManager extends ContainerHolder implements Messag
 			return messageCodec.decode(buf);
 		} catch (Throwable e) {
 			t.setStatus(e);
-			cat.logError(e);
+//			cat.logEvent("DAL_NOTFOUND", "LOGVIEW_DB");
 		} finally {
 			t.complete();
 		}

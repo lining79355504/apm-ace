@@ -100,7 +100,7 @@ public class Handler implements PageHandler<Context> {
 		String logView = null;
 		MessageId msgId = MessageId.parse(messageId);
 
-		if (checkStorageTime(msgId)) {
+//		if (checkStorageTime(msgId)) {
 			logView = getLogView(messageId, payload.isWaterfall());
 
 			if (logView == null || logView.length() == 0) {
@@ -108,9 +108,9 @@ public class Handler implements PageHandler<Context> {
 			} else {
 				Cat.logEvent("Logview", "Success", Event.SUCCESS, messageId);
 			}
-		} else {
-			Cat.logEvent("Logview", "OldMessage", Event.SUCCESS, messageId);
-		}
+//		} else {
+//			Cat.logEvent("Logview", "OldMessage", Event.SUCCESS, messageId);
+//		}
 
 		switch (payload.getAction()) {
 		case VIEW:

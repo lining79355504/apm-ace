@@ -640,14 +640,28 @@ CREATE TABLE `logview_long_period_content`
     `domain`     varchar(256)    NOT NULL DEFAULT '',
     `message_id` varchar(256)             DEFAULT NULL,
     `content`    longblob        NOT NULL,
-    `ctime`      datetime                 DEFAULT NULL,
+    `ctime`      datetime        NOT NULL,
     `mtime`      datetime                 DEFAULT NULL,
-    PRIMARY KEY (`id`),
-    UNIQUE KEY `idx_message_id` (`message_id`)
+    PRIMARY KEY (`id`, `ctime`),
+    UNIQUE KEY `unq_msg_ctime` (`message_id`, `ctime`)
 ) ENGINE = InnoDB
-  AUTO_INCREMENT = 5504
+  AUTO_INCREMENT = 5879
   DEFAULT CHARSET = utf8mb4
-  COLLATE = utf8mb4_0900_ai_ci;
+  COLLATE = utf8mb4_0900_ai_ci
+    /*!50100 PARTITION BY RANGE (month(`ctime`))
+    (PARTITION p1 VALUES LESS THAN (2) ENGINE = InnoDB,
+    PARTITION p2 VALUES LESS THAN (3) ENGINE = InnoDB,
+    PARTITION p3 VALUES LESS THAN (4) ENGINE = InnoDB,
+    PARTITION p4 VALUES LESS THAN (5) ENGINE = InnoDB,
+    PARTITION p5 VALUES LESS THAN (6) ENGINE = InnoDB,
+    PARTITION p6 VALUES LESS THAN (7) ENGINE = InnoDB,
+    PARTITION p7 VALUES LESS THAN (8) ENGINE = InnoDB,
+    PARTITION p8 VALUES LESS THAN (9) ENGINE = InnoDB,
+    PARTITION p9 VALUES LESS THAN (10) ENGINE = InnoDB,
+    PARTITION p10 VALUES LESS THAN (11) ENGINE = InnoDB,
+    PARTITION p11 VALUES LESS THAN (12) ENGINE = InnoDB,
+    PARTITION p12 VALUES LESS THAN (13) ENGINE = InnoDB,
+    PARTITION p_other VALUES LESS THAN MAXVALUE ENGINE = InnoDB) */;
 
 --
 -- Table structure for table `weeklyreport`
