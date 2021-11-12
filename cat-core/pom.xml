@@ -39,6 +39,10 @@
          </exclusions>
       </dependency>
       <dependency>
+         <groupId>com.mchange</groupId>
+         <artifactId>c3p0</artifactId>
+      </dependency>
+      <dependency>
          <groupId>javax.servlet</groupId>
          <artifactId>servlet-api</artifactId>
          <scope>provided</scope>

@@ -34,11 +34,11 @@ public class LogViewLongPeriodContentManager extends ContainerHolder implements 
     public void initialize() throws InitializationException {
 
 
-        final EventBus eventBus = new AsyncEventBus(Executors.newFixedThreadPool(10, new ThreadFactory() {
+        final EventBus eventBus = new AsyncEventBus(new ThreadPoolExecutor(3, 10, 60, TimeUnit.SECONDS, new ArrayBlockingQueue<Runnable>(3000), new ThreadFactory() {
             @Override
             public Thread newThread(Runnable r) {
                 Thread thread = new Thread(r);
-//                thread.setName("");
+                thread.setName("logview-store-" + thread.getId());
                 return thread;
             }
         }));
