@@ -59,15 +59,16 @@ public class LogViewLongPeriodContentManager extends ContainerHolder implements 
         Threads.forGroup("cat-" + LogViewLongPeriodContentManager.class.getSimpleName()).start(new Runnable() {
             @Override
             public void run() {
-                try {
-                    while (true) {
+
+                while (true) {
+                    try {
                         MessageTree messageTree = m_messageBlocks.poll(100, TimeUnit.MILLISECONDS);
                         if (null != messageTree) {
                             eventBus.post(messageTree);
                         }
+                    } catch (Exception e) {
+                        Cat.logError(e);
                     }
-                } catch (Exception e) {
-                    Cat.logError(e);
                 }
             }
         });
