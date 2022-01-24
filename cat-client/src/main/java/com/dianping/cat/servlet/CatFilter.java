@@ -140,6 +140,7 @@ public class CatFilter implements Filter {
 				StringBuilder sb = new StringBuilder(1024);
 				String ip = "";
 				String ipForwarded = req.getHeader("x-forwarded-for");
+				String realIP = req.getHeader("x-real-ip");
 
 				if (ipForwarded == null) {
 					ip = req.getRemoteAddr();
@@ -148,6 +149,7 @@ public class CatFilter implements Filter {
 				}
 
 				sb.append("IPS=").append(ip);
+				sb.append("&x-real-ip=").append(realIP);
 				sb.append("&VirtualIP=").append(req.getRemoteAddr());
 				sb.append("&Server=").append(req.getServerName());
 				sb.append("&Referer=").append(req.getHeader("referer"));
