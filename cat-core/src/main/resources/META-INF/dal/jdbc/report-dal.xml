@@ -637,6 +637,10 @@
 				WHERE <FIELD name='message-id' /> =  ${msg-id}
 				]]></statement>
 			</query>
+			<query name="insert-ignore-batch" type="INSERT" batch="true">
+				<statement><![CDATA[INSERT ignore INTO <TABLE/>(<FIELDS/>)
+        VALUES(<VALUES/>)]]></statement>
+			</query>
 		</query-defs>
 	</entity>
 

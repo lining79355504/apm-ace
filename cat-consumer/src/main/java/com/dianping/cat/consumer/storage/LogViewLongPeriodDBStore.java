@@ -16,7 +16,10 @@ import java.io.ByteArrayInputStream;
 import java.io.ByteArrayOutputStream;
 import java.io.DataInputStream;
 import java.io.IOException;
+import java.util.ArrayList;
 import java.util.Date;
+import java.util.List;
+import java.util.concurrent.locks.ReentrantLock;
 import java.util.zip.GZIPInputStream;
 import java.util.zip.GZIPOutputStream;
 
@@ -37,6 +40,10 @@ public class LogViewLongPeriodDBStore  implements LogViewLongPeriodStore {
 
     @Inject(PlainTextMessageCodec.ID)
     private MessageCodec messageCodec;
+
+    private static final Object OBJECT_LOCK = new Object();
+
+    private List<Logviewlongperiodcontent> contents = new ArrayList<Logviewlongperiodcontent>();
 
     @Override
     @Subscribe
@@ -64,9 +71,18 @@ public class LogViewLongPeriodDBStore  implements LogViewLongPeriodStore {
                 content.setCtime(new Date(tree.getMessage().getTimestamp()));
                 content.setMtime(new Date());
                 content.setContent(compressedBytes);
-                logviewlongperiodcontentDao.insertIgnore(content);
+                synchronized (OBJECT_LOCK) {
+                    contents.add(content);
+                    if (contents.size() > 200) {
+                        Logviewlongperiodcontent[] inertData = contents.toArray(new Logviewlongperiodcontent[0]);
+                        logviewlongperiodcontentDao.insertIgnoreBatch(inertData);
+                        contents.clear();
+                    }
+                }
             } catch (Exception e) {
                 Cat.logError(e);
+            }finally {
+
             }
     }
 }
