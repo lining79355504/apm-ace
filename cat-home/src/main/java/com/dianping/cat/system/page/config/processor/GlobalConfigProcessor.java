@@ -5,6 +5,7 @@ import java.util.Collections;
 import java.util.Comparator;
 import java.util.List;
 
+import com.dianping.cat.config.server.ServerCommonConfigManager;
 import com.dianping.cat.system.page.login.service.SigninService;
 import com.dianping.cat.system.page.router.config.SampleConfigManager;
 import jdk.nashorn.internal.ir.annotations.Ignore;
@@ -69,6 +70,9 @@ public class GlobalConfigProcessor {
 
     @Inject
     private RouterConfigHandler m_routerConfigHandler;
+
+    @Inject
+    private ServerCommonConfigManager m_serverCommonConfigManager;
 
     private boolean deleteProject(Payload payload) {
         Project proto = new Project();
@@ -161,6 +165,16 @@ public class GlobalConfigProcessor {
                     m_routerConfigHandler.updateRouterConfig(TimeHelper.getCurrentDay(-1));
                 }
                 model.setContent(m_configHtmlParser.parse(m_routerConfigManager.getRouterConfig().toString()));
+                break;
+            case SERVER_CONFIG_UPDATE:
+                if(!adminCheck(payload)){
+                    break;
+                }
+                String serverCommonConfig = payload.getContent();
+                if (!StringUtils.isEmpty(serverCommonConfig)) {
+                    model.setOpState(m_serverCommonConfigManager.insert(serverCommonConfig));
+                }
+                model.setContent(m_configHtmlParser.parse(m_serverCommonConfigManager.getCommonConfig().toString()));
                 break;
             case SAMPLE_CONFIG_UPDATE:
                 if (!adminCheck(payload)) {

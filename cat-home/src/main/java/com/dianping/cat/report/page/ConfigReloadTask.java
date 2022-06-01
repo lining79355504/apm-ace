@@ -4,6 +4,7 @@ import com.dianping.cat.report.alert.event.EventRuleConfigManager;
 import com.dianping.cat.report.alert.exception.ExceptionRuleConfigManager;
 import com.dianping.cat.report.alert.sender.sender.wecom.config.WxAppConfigManager;
 import com.dianping.cat.report.alert.transaction.TransactionRuleConfigManager;
+import com.dianping.cat.service.ProjectService;
 import com.dianping.cat.system.page.router.config.SampleConfigManager;
 import org.unidal.helper.Threads.Task;
 import org.unidal.lookup.annotation.Inject;
@@ -21,6 +22,9 @@ public class ConfigReloadTask implements Task {
 
     @Inject
     private ProductLineConfigManager m_productLineConfigManager;
+
+    @Inject
+    private ProjectService m_projectService;
 
     @Inject
     private MetricConfigManager m_metricConfigManager;
@@ -113,6 +117,11 @@ public class ConfigReloadTask implements Task {
             }
             try {
                 exceptionRuleConfigManager.refresh();
+            } catch (Exception e) {
+                Cat.logError(e);
+            }
+            try {
+                m_projectService.refresh();
             } catch (Exception e) {
                 Cat.logError(e);
             }

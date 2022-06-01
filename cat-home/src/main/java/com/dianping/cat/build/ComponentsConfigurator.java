@@ -223,7 +223,7 @@ public class ComponentsConfigurator extends AbstractJdbcResourceConfigurator {
 		all.add(C(TopoGraphFormatConfigManager.class).req(ConfigDao.class, ContentFetcher.class));
 		all.add(C(SenderConfigManager.class).req(ConfigDao.class, ContentFetcher.class));
 		all.add(C(ActivityConfigManager.class).req(ConfigDao.class, ContentFetcher.class));
-		all.add(C(ConfigReloadTask.class).req(MetricConfigManager.class, ProductLineConfigManager.class,
+		all.add(C(ConfigReloadTask.class).req(MetricConfigManager.class, ProductLineConfigManager.class, ProjectService.class,
 		      RouterConfigManager.class, BlackListManager.class, AllReportConfigManager.class, SampleConfigManager.class,
 				WxAppConfigManager.class, TransactionRuleConfigManager.class,
 				ExceptionRuleConfigManager.class, EventRuleConfigManager.class));

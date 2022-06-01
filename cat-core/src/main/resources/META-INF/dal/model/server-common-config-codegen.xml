@@ -1,0 +1,7 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<model>
+    <entity name="commonConfig" class-name="ServerCommonConfig"  root="true">
+        <attribute name="logview-store-type" value-type="String" default-value=""/>
+    </entity>
+</model>
+

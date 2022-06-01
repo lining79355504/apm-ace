@@ -508,6 +508,9 @@
 					<role>com.dianping.cat.consumer.config.ProductLineConfigManager</role>
 				</requirement>
 				<requirement>
+					<role>com.dianping.cat.service.ProjectService</role>
+				</requirement>
+				<requirement>
 					<role>com.dianping.cat.system.page.router.config.RouterConfigManager</role>
 				</requirement>
 				<requirement>
@@ -6071,6 +6074,9 @@
 				<requirement>
 					<role>com.dianping.cat.system.page.router.config.RouterConfigHandler</role>
 				</requirement>
+				<requirement>
+					<role>com.dianping.cat.config.server.ServerCommonConfigManager</role>
+				</requirement>
 			</requirements>
 		</component>
 		<component>
@@ -6161,6 +6167,18 @@
 				</requirement>
 				<requirement>
 					<role>com.dianping.cat.core.dal.MonthlyReportContentDao</role>
+				</requirement>
+			</requirements>
+		</component>
+		<component>
+			<role>com.dianping.cat.config.server.ServerCommonConfigManager</role>
+			<implementation>com.dianping.cat.config.server.ServerCommonConfigManager</implementation>
+			<requirements>
+				<requirement>
+					<role>com.dianping.cat.core.config.ConfigDao</role>
+				</requirement>
+				<requirement>
+					<role>com.dianping.cat.config.content.ContentFetcher</role>
 				</requirement>
 			</requirements>
 		</component>

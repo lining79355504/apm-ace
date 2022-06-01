@@ -34,6 +34,7 @@
 	       <li class="text-left" id="policy"><a href="?op=alertPolicy">告警策略配置</a></li>
 	       <li class="text-left" id="alertDefaultReceivers"><a href="?op=alertDefaultReceivers">默认告警人配置</a></li>
 	       <li class="text-left" id="routerConfigUpdate"><a href="?op=routerConfigUpdate">客户端路由配置</a></li>
+	       <li class="text-left" id="serverConfigUpdate"><a href="?op=serverConfigUpdate">服务端配置</a></li>
          </ul>
 </div>
 

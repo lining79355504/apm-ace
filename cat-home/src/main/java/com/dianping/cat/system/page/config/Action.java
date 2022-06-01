@@ -237,7 +237,10 @@ public enum Action implements org.unidal.web.mvc.Action {
 
 	ALL_REPORT_CONFIG("allReportConfig"),
 
-	BLACK_CONFIG_UPDATE("blackConfigUpdate");
+	BLACK_CONFIG_UPDATE("blackConfigUpdate"),
+
+	SERVER_CONFIG_UPDATE("serverConfigUpdate"),
+	;
 
 	private String m_name;
 

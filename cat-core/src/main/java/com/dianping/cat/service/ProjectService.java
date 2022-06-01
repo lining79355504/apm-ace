@@ -163,7 +163,7 @@ public class ProjectService implements Initializable {
 		return false;
 	}
 
-	protected void refresh() {
+	public void refresh() {
 		try {
 			List<Project> projects = m_projectDao.findAll(ProjectEntity.READSET_FULL);
 			ConcurrentHashMap<String, Project> tmpDomainProjects = new ConcurrentHashMap<String, Project>();

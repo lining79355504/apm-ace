@@ -135,6 +135,8 @@ public enum JspFile {
 
 	ROUTER_CONFIG_UPDATE("/jsp/system/router/routerConfig.jsp"),
 
+	SERVER_CONFIG_UPDATE("/jsp/system/server/serverConfig.jsp"),
+
 	SAMPLE_CONFIG_UPDATE("/jsp/system/router/sampleConfig.jsp"),
 
 	SENDER_CONFIG_UPDATE("/jsp/system/sender/senderConfig.jsp"),

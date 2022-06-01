@@ -3,6 +3,7 @@ package com.dianping.cat.build;
 import java.util.ArrayList;
 import java.util.List;
 
+import com.dianping.cat.config.server.ServerCommonConfigManager;
 import org.unidal.dal.jdbc.configuration.AbstractJdbcResourceConfigurator;
 import org.unidal.initialization.Module;
 import org.unidal.lookup.configuration.Component;
@@ -58,6 +59,7 @@ public class ComponentsConfigurator extends AbstractJdbcResourceConfigurator {
 		      .req(MessageAnalyzerManager.class, ServerStatisticManager.class, BlackListManager.class));
 
 		all.add(C(ServerConfigManager.class));
+		all.add(C(ServerCommonConfigManager.class).req(ConfigDao.class, ContentFetcher.class));
 		all.add(C(HostinfoService.class).req(HostinfoDao.class, ServerConfigManager.class));
 		all.add(C(IpService.class));
 		all.add(C(TaskManager.class).req(TaskDao.class));

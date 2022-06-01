@@ -7,13 +7,7 @@ import java.util.Date;
 import javax.servlet.ServletException;
 import javax.servlet.http.Cookie;
 
-import com.dianping.cat.system.SystemContext;
-import com.dianping.cat.system.page.login.service.LoginMember;
-import com.dianping.cat.system.page.login.service.Session;
-import com.dianping.cat.system.page.login.service.SigninContext;
-import com.dianping.cat.system.page.login.service.SigninService;
 import org.unidal.lookup.annotation.Inject;
-import org.unidal.web.mvc.ActionContext;
 import org.unidal.web.mvc.PageHandler;
 import org.unidal.web.mvc.annotation.InboundActionMeta;
 import org.unidal.web.mvc.annotation.OutboundActionMeta;
@@ -130,6 +124,7 @@ public class Handler implements PageHandler<Context> {
             case DOMAIN_GROUP_CONFIG_SUBMIT:
             case BUG_CONFIG_UPDATE:
             case ROUTER_CONFIG_UPDATE:
+            case SERVER_CONFIG_UPDATE:
             case SAMPLE_CONFIG_UPDATE:
             case ALERT_SENDER_CONFIG_UPDATE:
             case BLACK_CONFIG_UPDATE:

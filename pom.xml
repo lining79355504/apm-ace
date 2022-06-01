@@ -193,6 +193,15 @@ encoding/<project>=UTF-8
 						</additionalConfig>
 					</configuration>
 				</plugin>
+
+<!--解决  插件错误 Execution default-descriptor of goal org.apache.maven.plugins:maven-plugin-plugin:3.2:descriptor failed-->
+				<plugin>
+					<groupId>org.apache.maven.plugins</groupId>
+					<artifactId>maven-plugin-plugin</artifactId>
+					<version>3.5.2</version>
+				</plugin>
+
+
 				<plugin>
 					<groupId>org.unidal.maven.plugins</groupId>
 					<artifactId>codegen-maven-plugin</artifactId>

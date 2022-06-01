@@ -126,6 +126,9 @@
 							<li id="sampleConfigUpdate"><a href="/cat/s/config?op=sampleConfigUpdate">
 								<i class="menu-icon fa fa-caret-right"></i>客户端采样</a>
 								<b class="arrow"></b></li>
+							<li id="serverConfigUpdate"><a href="/cat/s/config?op=serverConfigUpdate">
+								<i class="menu-icon fa fa-caret-right"></i>服务端配置</a>
+								<b class="arrow"></b></li>
 						</ul></li>
 					</ul>
 				<!-- #section:basics/sidebar.layout.minimize -->
