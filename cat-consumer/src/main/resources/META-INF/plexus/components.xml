@@ -821,6 +821,9 @@
 					<role-hint>plain-text</role-hint>
 				</requirement>
 				<requirement>
+					<role>com.dianping.cat.config.server.ServerCommonConfigManager</role>
+				</requirement>
+				<requirement>
 					<role>com.dianping.cat.core.dal.LogviewlongperiodcontentDao</role>
 				</requirement>
 			</requirements>
@@ -829,6 +832,23 @@
 			<role>com.dianping.cat.consumer.storage.LogViewLongPeriodStore</role>
 			<role-hint>LogViewLongPeriodEsStore</role-hint>
 			<implementation>com.dianping.cat.consumer.storage.LogViewLongPeriodEsStore</implementation>
+			<instantiation-strategy>per-lookup</instantiation-strategy>
+			<requirements>
+				<requirement>
+					<role>com.dianping.cat.config.server.ServerCommonConfigManager</role>
+				</requirement>
+			</requirements>
+		</component>
+		<component>
+			<role>com.dianping.cat.consumer.storage.LogViewLongPeriodStore</role>
+			<role-hint>LogViewLongPeriodFileStore</role-hint>
+			<implementation>com.dianping.cat.consumer.storage.LogViewLongPeriodFileStore</implementation>
+			<instantiation-strategy>per-lookup</instantiation-strategy>
+			<requirements>
+				<requirement>
+					<role>com.dianping.cat.config.server.ServerCommonConfigManager</role>
+				</requirement>
+			</requirements>
 		</component>
 		<component>
 			<role>com.dianping.cat.consumer.storage.LogViewLongPeriodContentManager</role>

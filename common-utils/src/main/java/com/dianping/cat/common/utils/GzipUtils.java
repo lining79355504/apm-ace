@@ -1,5 +1,8 @@
 package com.dianping.cat.common.utils;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+
 import java.io.*;
 import java.util.zip.GZIPInputStream;
 import java.util.zip.GZIPOutputStream;
@@ -10,6 +13,8 @@ import java.util.zip.GZIPOutputStream;
  * @date 2021/10/10
  **/
 public class GzipUtils {
+
+     private static final Logger logger = LoggerFactory.getLogger(GzipUtils.class);
 
     private static int BUFFER = 1024 * 32;
 
@@ -69,6 +74,11 @@ public class GzipUtils {
 
 
     public static byte[] decompress(byte[] data) throws IOException {
+
+        if (!isGZipped(data)) {
+            return data;
+        }
+
         ByteArrayInputStream bais = new ByteArrayInputStream(data);
         ByteArrayOutputStream baos = new ByteArrayOutputStream();
 
@@ -105,5 +115,69 @@ public class GzipUtils {
             os.write(data, 0, count);
         }
         gis.close();
+    }
+
+    /**
+     * @param btytes
+     */
+    public static boolean isGZipped(byte[] btytes) {
+        if (btytes.length < 2) {
+            return false;
+        }
+        return (btytes[0] & 0xff | (btytes[1] << 8 & 0xff00)) == GZIPInputStream.GZIP_MAGIC;
+    }
+
+
+    /**
+     * Checks if an input stream is gzipped.
+     *
+     * @param in
+     * @return
+     */
+
+    public static boolean isGZipped(InputStream in) {
+
+        if (!in.markSupported()) {
+            in = new BufferedInputStream(in);
+        }
+        in.mark(2);
+
+        int magic = 0;
+
+        try {
+
+            magic = in.read() & 0xff | ((in.read() << 8) & 0xff00);
+
+            in.reset();
+
+        } catch (Throwable e) {
+
+            logger.error("error ", e);
+
+            return false;
+
+        }
+
+        return magic == GZIPInputStream.GZIP_MAGIC;
+
+    }
+
+    /**
+     * Checks if a file is gzipped.
+     *
+     * @param f
+     * @return
+     */
+
+    public static boolean isGZipped(File f) {
+        int magic = 0;
+        try {
+            RandomAccessFile raf = new RandomAccessFile(f, "r");
+            magic = raf.read() & 0xff | ((raf.read() << 8) & 0xff00);
+            raf.close();
+        } catch (Throwable e) {
+            logger.error("error ", e);
+        }
+        return magic == GZIPInputStream.GZIP_MAGIC;
     }
 }

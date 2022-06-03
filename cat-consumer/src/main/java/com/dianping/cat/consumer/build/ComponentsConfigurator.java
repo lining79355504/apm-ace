@@ -4,6 +4,7 @@ import java.util.ArrayList;
 import java.util.Collection;
 import java.util.List;
 
+import com.dianping.cat.config.server.ServerCommonConfigManager;
 import com.dianping.cat.consumer.storage.*;
 import com.dianping.cat.core.dal.LogviewlongperiodcontentDao;
 import com.dianping.cat.message.spi.MessageCodec;
@@ -94,9 +95,18 @@ public class ComponentsConfigurator extends AbstractJdbcResourceConfigurator {
 				.is(PER_LOOKUP)
 				.req(MessageBucketManager.class, LocalMessageBucketManager.ID)
 				.req(MessageCodec.class, PlainTextMessageCodec.ID)
+				.req(ServerCommonConfigManager.class)
 				.req(LogviewlongperiodcontentDao.class));
 
-		all.add(C(LogViewLongPeriodStore.class, LogViewLongPeriodEsStore.ID, LogViewLongPeriodEsStore.class));
+		all.add(C(LogViewLongPeriodStore.class, LogViewLongPeriodEsStore.ID, LogViewLongPeriodEsStore.class)
+				.is(PER_LOOKUP)
+				.req(ServerCommonConfigManager.class)
+		);
+
+		all.add(C(LogViewLongPeriodStore.class, LogViewLongPeriodFileStore.ID, LogViewLongPeriodFileStore.class)
+				.is(PER_LOOKUP)
+				.req(ServerCommonConfigManager.class)
+		);
 
 		all.add(C(LogViewLongPeriodContentManager.class));
 

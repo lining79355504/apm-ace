@@ -1,7 +1,13 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <model>
-    <entity name="commonConfig" class-name="ServerCommonConfig"  root="true">
-        <attribute name="logview-store-type" value-type="String" default-value=""/>
+    <entity name="commonConfig" class-name="ServerCommonConfig" root="true">
+        <entity-ref name="logview-store-type" type="map"  names="logview-store-type-map" method-find-or-create='true'/>
+    </entity>
+    <entity name="logview-store-type">
+        <attribute name="id" value-type="String" key="true" />
+        <attribute name="name" value-type="String"/>
+        <attribute name="gzip" value-type="boolean"/>
+        <attribute name="batch-size" value-type="int"/>
     </entity>
 </model>
 

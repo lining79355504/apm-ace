@@ -1,7 +1,10 @@
 package com.dianping.cat.consumer.storage;
 
+import com.dianping.cat.config.server.ServerCommonConfigManager;
+import com.dianping.cat.configuration.common.config.entity.LogviewStoreType;
 import com.dianping.cat.message.spi.MessageTree;
 import com.google.common.eventbus.Subscribe;
+import org.unidal.lookup.annotation.Inject;
 
 /**
  * @author mort
@@ -12,9 +15,18 @@ public class LogViewLongPeriodEsStore implements LogViewLongPeriodStore {
 
     public static final String ID = "LogViewLongPeriodEsStore";
 
+    @Inject
+    private ServerCommonConfigManager m_serverCommonConfigManager;
+
     @Override
     @Subscribe
     public void store(MessageTree messageTree) {
+        LogviewStoreType storeType = m_serverCommonConfigManager.getCommonConfig().getLogviewStoreTypeMap().get("es");
+        if(null == storeType){
+            return;
+        }
+
+
 
     }
 }
