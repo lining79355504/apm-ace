@@ -1,11 +1,13 @@
 package com.dianping.cat.message.spi.internal;
 
+import com.dianping.cat.message.*;
 import io.netty.buffer.ByteBuf;
 import io.netty.buffer.ByteBufAllocator;
 
 import java.nio.charset.Charset;
+import java.util.ArrayList;
+import java.util.List;
 
-import com.dianping.cat.message.Message;
 import com.dianping.cat.message.spi.MessageTree;
 import com.dianping.cat.message.spi.codec.PlainTextMessageCodec;
 
@@ -37,6 +39,14 @@ public class DefaultMessageTree implements MessageTree {
 
 	private boolean m_sample = true;
 
+	private List<Event> events = new ArrayList<Event>();
+
+	private List<Transaction> transactions = new ArrayList<Transaction>();
+
+	private List<Heartbeat> heartbeats = new ArrayList<Heartbeat>();
+
+	private List<Metric> metrics = new ArrayList<Metric>();
+
 	@Override
 	public MessageTree copy() {
 		MessageTree tree = new DefaultMessageTree();
@@ -56,6 +66,39 @@ public class DefaultMessageTree implements MessageTree {
 
 		return tree;
 	}
+
+	@Override
+	public List<Event> findOrCreateEvents() {
+		if (events == null) {
+			events = new ArrayList<Event>();
+		}
+		return events;
+	}
+
+	@Override
+	public List<Heartbeat> findOrCreateHeartbeats() {
+		if (heartbeats == null) {
+			heartbeats = new ArrayList<Heartbeat>();
+		}
+		return heartbeats;
+	}
+
+	@Override
+	public List<Metric> findOrCreateMetrics() {
+		if (metrics == null) {
+			metrics = new ArrayList<Metric>();
+		}
+		return metrics;
+	}
+
+	@Override
+	public List<Transaction> findOrCreateTransactions() {
+		if (transactions == null) {
+			transactions = new ArrayList<Transaction>();
+		}
+		return transactions;
+	}
+
 
 	public ByteBuf getBuffer() {
 		return m_buf;
@@ -114,6 +157,44 @@ public class DefaultMessageTree implements MessageTree {
 	@Override
 	public String getThreadName() {
 		return m_threadName;
+	}
+
+	@Override
+	public List<Transaction> getTransactions() {
+		return transactions;
+	}
+
+	@Override
+	public List<Event> getEvents() {
+		return events;
+	}
+
+	@Override
+	public List<Heartbeat> getHeartbeats() {
+		return heartbeats;
+	}
+
+	@Override
+	public List<Metric> getMetrics() {
+		return metrics;
+	}
+
+	public void clearMessageList() {
+		if (transactions != null) {
+			transactions.clear();
+		}
+
+		if (events != null) {
+			events.clear();
+		}
+
+		if (heartbeats != null) {
+			heartbeats.clear();
+		}
+
+		if (metrics != null) {
+			metrics.clear();
+		}
 	}
 
 	@Override

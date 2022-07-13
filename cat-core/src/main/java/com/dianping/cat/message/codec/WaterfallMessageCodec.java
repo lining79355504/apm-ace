@@ -912,4 +912,9 @@ public class WaterfallMessageCodec implements MessageCodec, Initializable {
 			return this;
 		}
 	}
+
+	@Override
+	public void reset() {
+
+	}
 }

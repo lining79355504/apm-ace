@@ -69,6 +69,9 @@ public enum NullMessage implements Transaction, Event, Metric, Trace, Heartbeat,
 	}
 
 	@Override
+	public void setDurationInMillis(long durationInMills) { }
+
+	@Override
 	public String getForkedMessageId() {
 		throw new UnsupportedOperationException();
 	}
@@ -137,4 +140,6 @@ public enum NullMessage implements Transaction, Event, Metric, Trace, Heartbeat,
 	@Override
 	public void start() {
 	}
+
+
 }

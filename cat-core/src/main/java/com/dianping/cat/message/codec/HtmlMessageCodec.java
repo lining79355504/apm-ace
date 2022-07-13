@@ -572,4 +572,9 @@ public class HtmlMessageCodec implements MessageCodec, Initializable {
 			}
 		}
 	}
+
+	@Override
+	public void reset() {
+
+	}
 }

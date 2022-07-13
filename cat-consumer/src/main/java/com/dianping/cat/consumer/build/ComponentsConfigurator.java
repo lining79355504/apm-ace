@@ -92,7 +92,6 @@ public class ComponentsConfigurator extends AbstractJdbcResourceConfigurator {
 
 
 		all.add(C(LogViewLongPeriodStore.class, LogViewLongPeriodDBStore.ID, LogViewLongPeriodDBStore.class)
-				.is(PER_LOOKUP)
 				.req(MessageBucketManager.class, LocalMessageBucketManager.ID)
 				.req(MessageCodec.class, PlainTextMessageCodec.ID)
 				.req(ServerCommonConfigManager.class)

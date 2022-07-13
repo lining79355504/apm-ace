@@ -230,6 +230,11 @@ public class MessageTest extends ComponentTestCase {
 			encodeMessage(tree.getMessage(), buf);
 		}
 
+		@Override
+		public void reset() {
+
+		}
+
 		private void encodeEvent(Event e, ByteBuf buf) {
 			m_sb.append('E');
 			m_sb.append(' ').append(e.getType());

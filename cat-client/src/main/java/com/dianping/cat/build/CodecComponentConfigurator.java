@@ -3,6 +3,7 @@ package com.dianping.cat.build;
 import java.util.ArrayList;
 import java.util.List;
 
+import com.dianping.cat.message.spi.codec.NativeMessageCodec;
 import org.unidal.lookup.configuration.AbstractResourceConfigurator;
 import org.unidal.lookup.configuration.Component;
 
@@ -18,8 +19,11 @@ class CodecComponentConfigurator extends AbstractResourceConfigurator {
 
 		all.add(C(BufferWriter.class, EscapingBufferWriter.ID, EscapingBufferWriter.class));
 
-		all.add(C(MessageCodec.class, PlainTextMessageCodec.ID, PlainTextMessageCodec.class) //
-		      .req(BufferWriter.class, EscapingBufferWriter.ID));
+		all.add(C(MessageCodec.class, NativeMessageCodec.ID, NativeMessageCodec.class)); //
+//		      .req(BufferWriter.class, EscapingBufferWriter.ID));
+
+		all.add(C(MessageCodec.class, PlainTextMessageCodec.ID, PlainTextMessageCodec.class)); //
+//				.req(BufferWriter.class, EscapingBufferWriter.ID));
 
 		return all;
 	}

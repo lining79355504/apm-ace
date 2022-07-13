@@ -8,4 +8,6 @@ public interface MessageCodec {
 	public void decode(ByteBuf buf, MessageTree tree);
 
 	public void encode(MessageTree tree, ByteBuf buf);
+
+	public void reset();
 }

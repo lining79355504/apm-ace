@@ -51,7 +51,7 @@
 				</requirement>
 				<requirement>
 					<role>com.dianping.cat.message.spi.MessageCodec</role>
-					<role-hint>plain-text</role-hint>
+					<role-hint>NT1</role-hint>
 					<field-name>m_codec</field-name>
 				</requirement>
 			</requirements>
@@ -96,14 +96,13 @@
 		</component>
 		<component>
 			<role>com.dianping.cat.message.spi.MessageCodec</role>
+			<role-hint>NT1</role-hint>
+			<implementation>com.dianping.cat.message.spi.codec.NativeMessageCodec</implementation>
+		</component>
+		<component>
+			<role>com.dianping.cat.message.spi.MessageCodec</role>
 			<role-hint>plain-text</role-hint>
 			<implementation>com.dianping.cat.message.spi.codec.PlainTextMessageCodec</implementation>
-			<requirements>
-				<requirement>
-					<role>com.dianping.cat.message.spi.codec.BufferWriter</role>
-					<role-hint>escape</role-hint>
-				</requirement>
-			</requirements>
 		</component>
 	</components>
 </plexus>

@@ -3585,10 +3585,6 @@
 			<implementation>com.dianping.cat.analysis.TcpSocketReceiver</implementation>
 			<requirements>
 				<requirement>
-					<role>com.dianping.cat.message.spi.MessageCodec</role>
-					<role-hint>plain-text</role-hint>
-				</requirement>
-				<requirement>
 					<role>com.dianping.cat.analysis.MessageHandler</role>
 				</requirement>
 				<requirement>

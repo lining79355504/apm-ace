@@ -20,6 +20,11 @@ public class DefaultTransaction extends AbstractMessage implements Transaction {
 
 	private long m_durationStart;
 
+	public DefaultTransaction(String type, String name) {
+		super(type, name);
+		m_durationStart = System.nanoTime();
+	}
+
 	public DefaultTransaction(String type, String name, MessageManager manager) {
 		super(type, name);
 

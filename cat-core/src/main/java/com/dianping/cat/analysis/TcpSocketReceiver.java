@@ -1,5 +1,7 @@
 package com.dianping.cat.analysis;
 
+import com.dianping.cat.message.CodecHandler;
+import com.dianping.cat.message.spi.codec.NativeMessageCodec;
 import io.netty.bootstrap.ServerBootstrap;
 import io.netty.buffer.ByteBuf;
 import io.netty.buffer.PooledByteBufAllocator;
@@ -31,8 +33,8 @@ import com.dianping.cat.statistic.ServerStatisticManager;
 
 public final class TcpSocketReceiver implements LogEnabled {
 
-	@Inject(type = MessageCodec.class, value = PlainTextMessageCodec.ID)
-	private MessageCodec m_codec;
+//	@Inject(type = MessageCodec.class, value = PlainTextMessageCodec.ID)
+//	private MessageCodec m_codec;
 
 	@Inject
 	private MessageHandler m_handler;
@@ -140,7 +142,8 @@ public final class TcpSocketReceiver implements LogEnabled {
 					readBytes.markReaderIndex();
 					readBytes.readInt();
 
-					DefaultMessageTree tree = (DefaultMessageTree) m_codec.decode(readBytes);
+//					DefaultMessageTree tree = (DefaultMessageTree) m_codec.decode(readBytes);
+					DefaultMessageTree tree = (DefaultMessageTree) CodecHandler.decode(readBytes);
 
 					readBytes.resetReaderIndex();
 					tree.setBuffer(readBytes);

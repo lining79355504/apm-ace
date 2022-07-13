@@ -66,6 +66,13 @@ public interface Transaction extends Message {
 	public long getDurationInMillis();
 
 	/**
+	 * set duration in millisecond.
+	 *
+	 * @return duration time in millisecond
+	 */
+	public void setDurationInMillis(long durationInMills);
+
+	/**
 	 * Has children or not. An atomic transaction does not have any children message.
 	 * 
 	 * @return true if child exists, else false.

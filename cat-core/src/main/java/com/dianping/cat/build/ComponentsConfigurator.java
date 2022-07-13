@@ -4,6 +4,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 import com.dianping.cat.config.server.ServerCommonConfigManager;
+import com.dianping.cat.message.spi.codec.NativeMessageCodec;
 import org.unidal.dal.jdbc.configuration.AbstractJdbcResourceConfigurator;
 import org.unidal.initialization.Module;
 import org.unidal.lookup.configuration.Component;
@@ -73,7 +74,7 @@ public class ComponentsConfigurator extends AbstractJdbcResourceConfigurator {
 		all.add(C(MessageAnalyzerManager.class, DefaultMessageAnalyzerManager.class));
 
 		all.add(C(TcpSocketReceiver.class).req(ServerConfigManager.class).req(ServerStatisticManager.class)
-		      .req(MessageCodec.class, PlainTextMessageCodec.ID).req(MessageHandler.class));
+		      .req(MessageCodec.class, NativeMessageCodec.ID).req(MessageHandler.class));
 
 		all.add(C(MessageHandler.class, DefaultMessageHandler.class));
 

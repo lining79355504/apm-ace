@@ -3,6 +3,7 @@ package com.dianping.cat.build;
 import java.util.ArrayList;
 import java.util.List;
 
+import com.dianping.cat.message.spi.codec.NativeMessageCodec;
 import org.unidal.initialization.Module;
 import org.unidal.lookup.configuration.AbstractResourceConfigurator;
 import org.unidal.lookup.configuration.Component;
@@ -44,7 +45,9 @@ public class ComponentsConfigurator extends AbstractResourceConfigurator {
 		all.add(C(TcpSocketSender.class) //
 		      .req(ClientConfigManager.class, MessageIdFactory.class) //
 		      .req(MessageStatistics.class, "default", "m_statistics") //
-		      .req(MessageCodec.class, PlainTextMessageCodec.ID, "m_codec"));
+//		      .req(MessageCodec.class, NativeMessageCodec.ID, "m_codec"));
+//				.is(PER_LOOKUP)
+				.req(MessageCodec.class, NativeMessageCodec.ID, "m_codec"));
 		all.add(C(TransportManager.class, DefaultTransportManager.class) //
 		      .req(ClientConfigManager.class, TcpSocketSender.class));
 

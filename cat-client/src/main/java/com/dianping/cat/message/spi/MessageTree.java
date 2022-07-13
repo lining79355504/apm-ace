@@ -1,9 +1,19 @@
 package com.dianping.cat.message.spi;
 
-import com.dianping.cat.message.Message;
+import com.dianping.cat.message.*;
+
+import java.util.List;
 
 public interface MessageTree extends Cloneable {
 	public MessageTree copy();
+
+	public List<Event> findOrCreateEvents();
+
+	public List<Heartbeat> findOrCreateHeartbeats();
+
+	public List<Metric> findOrCreateMetrics();
+
+	public List<Transaction> findOrCreateTransactions();
 
 	public String getDomain();
 
@@ -52,4 +62,13 @@ public interface MessageTree extends Cloneable {
 	public void setThreadName(String id);
 
 	public void setSample(boolean sample);
+
+	public List<Transaction> getTransactions();
+
+	public List<Event> getEvents();
+
+	public List<Heartbeat> getHeartbeats();
+
+	public List<Metric> getMetrics();
 }
+
