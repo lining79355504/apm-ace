@@ -134,7 +134,6 @@
 			<role>com.dianping.cat.consumer.problem.ProblemHandler</role>
 			<role-hint>default-problem</role-hint>
 			<implementation>com.dianping.cat.consumer.problem.DefaultProblemHandler</implementation>
-			<instantiation-strategy>per-lookup</instantiation-strategy>
 			<configuration>
 				<errorType>Error,RuntimeException,Exception</errorType>
 			</configuration>
@@ -162,7 +161,6 @@
 			<role>com.dianping.cat.consumer.problem.ProblemHandler</role>
 			<role-hint>long-execution</role-hint>
 			<implementation>com.dianping.cat.consumer.problem.LongExecutionProblemHandler</implementation>
-			<instantiation-strategy>per-lookup</instantiation-strategy>
 			<requirements>
 				<requirement>
 					<role>com.dianping.cat.config.server.ServerConfigManager</role>
@@ -379,7 +377,6 @@
 			<role>com.dianping.cat.message.storage.MessageBucketManager</role>
 			<role-hint>local</role-hint>
 			<implementation>com.dianping.cat.consumer.dump.LocalMessageBucketManager</implementation>
-			<instantiation-strategy>per-lookup</instantiation-strategy>
 			<requirements>
 				<requirement>
 					<role>com.dianping.cat.config.server.ServerConfigManager</role>

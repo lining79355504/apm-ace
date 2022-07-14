@@ -152,7 +152,6 @@ public class ComponentsConfigurator extends AbstractJdbcResourceConfigurator {
 
 		all.add(C(MessageBucketManager.class, LocalMessageBucketManager.ID, LocalMessageBucketManager.class) //
 				.req(ServerConfigManager.class, PathBuilder.class, ServerStatisticManager.class)//
-				.is(PER_LOOKUP)
 				.req(MessageCodec.class, PlainTextMessageCodec.ID)
 				.req(LogviewlongperiodcontentDao.class)
 				.req(HdfsUploader.class));
@@ -227,14 +226,12 @@ public class ComponentsConfigurator extends AbstractJdbcResourceConfigurator {
 		all.add(C(ProblemHandler.class, DefaultProblemHandler.ID, DefaultProblemHandler.class)//
 				.config(E("errorType").value("Error,RuntimeException,Exception"))//
 				.req(ServerConfigManager.class).req(MessageBucketManager.class, LocalMessageBucketManager.ID)
-				.is(PER_LOOKUP)
 				.req(MessageCodec.class, PlainTextMessageCodec.ID)
 				.req(LogViewLongPeriodContentManager.class)
 				.req(LogviewlongperiodcontentDao.class)); //);
 
 		all.add(C(ProblemHandler.class, LongExecutionProblemHandler.ID, LongExecutionProblemHandler.class) //
 				.req(ServerConfigManager.class).req(MessageBucketManager.class, LocalMessageBucketManager.ID)
-				.is(PER_LOOKUP)
 				.req(MessageCodec.class, PlainTextMessageCodec.ID)
 				.req(LogViewLongPeriodContentManager.class)
 				.req(LogviewlongperiodcontentDao.class)); //);
