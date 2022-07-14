@@ -8,6 +8,12 @@
 	<name>apm-ace</name>
 	<description>Central Application Tracking</description>
 	<packaging>pom</packaging>
+
+	<properties>
+		<maven.compiler.release>8</maven.compiler.release>
+		<project.build.sourceEncoding>utf-8</project.build.sourceEncoding>
+	</properties>
+
 	<modules>
 		<module>cat-client</module>
 		<module>cat-core</module>
@@ -304,7 +310,4 @@ encoding/<project>=UTF-8
 			<snapshots><enabled>true</enabled></snapshots>
 		</pluginRepository>
 	</pluginRepositories>
-	<properties>
-		<project.build.sourceEncoding>utf-8</project.build.sourceEncoding>
-	</properties>
 </project>

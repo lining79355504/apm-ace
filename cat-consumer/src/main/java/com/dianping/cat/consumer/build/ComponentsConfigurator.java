@@ -98,12 +98,10 @@ public class ComponentsConfigurator extends AbstractJdbcResourceConfigurator {
 				.req(LogviewlongperiodcontentDao.class));
 
 		all.add(C(LogViewLongPeriodStore.class, LogViewLongPeriodEsStore.ID, LogViewLongPeriodEsStore.class)
-				.is(PER_LOOKUP)
 				.req(ServerCommonConfigManager.class)
 		);
 
 		all.add(C(LogViewLongPeriodStore.class, LogViewLongPeriodFileStore.ID, LogViewLongPeriodFileStore.class)
-				.is(PER_LOOKUP)
 				.req(ServerCommonConfigManager.class)
 		);
 

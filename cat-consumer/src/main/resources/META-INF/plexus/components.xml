@@ -810,7 +810,6 @@
 			<role>com.dianping.cat.consumer.storage.LogViewLongPeriodStore</role>
 			<role-hint>LogViewLongPeriodDBStore</role-hint>
 			<implementation>com.dianping.cat.consumer.storage.LogViewLongPeriodDBStore</implementation>
-			<instantiation-strategy>per-lookup</instantiation-strategy>
 			<requirements>
 				<requirement>
 					<role>com.dianping.cat.message.storage.MessageBucketManager</role>
@@ -832,7 +831,6 @@
 			<role>com.dianping.cat.consumer.storage.LogViewLongPeriodStore</role>
 			<role-hint>LogViewLongPeriodEsStore</role-hint>
 			<implementation>com.dianping.cat.consumer.storage.LogViewLongPeriodEsStore</implementation>
-			<instantiation-strategy>per-lookup</instantiation-strategy>
 			<requirements>
 				<requirement>
 					<role>com.dianping.cat.config.server.ServerCommonConfigManager</role>
@@ -843,7 +841,6 @@
 			<role>com.dianping.cat.consumer.storage.LogViewLongPeriodStore</role>
 			<role-hint>LogViewLongPeriodFileStore</role-hint>
 			<implementation>com.dianping.cat.consumer.storage.LogViewLongPeriodFileStore</implementation>
-			<instantiation-strategy>per-lookup</instantiation-strategy>
 			<requirements>
 				<requirement>
 					<role>com.dianping.cat.config.server.ServerCommonConfigManager</role>
