@@ -43,7 +43,7 @@ public class HeartbeatReportBuilder implements TaskBuilder {
 			byte[] binaryContent = DefaultNativeBuilder.build(heartbeatReport);
 
 			return m_reportService.insertDailyReport(report, binaryContent);
-		} catch (Exception e) {
+		} catch (Throwable e) {
 			Cat.logError(e);
 			return false;
 		}

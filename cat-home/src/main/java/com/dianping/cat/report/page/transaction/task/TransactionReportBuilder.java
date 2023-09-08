@@ -67,7 +67,7 @@ public class TransactionReportBuilder implements TaskBuilder, LogEnabled {
 			report.setType(1);
 			byte[] binaryContent = DefaultNativeBuilder.build(transactionReport);
 			return m_reportService.insertDailyReport(report, binaryContent);
-		} catch (Exception e) {
+		} catch (Throwable e) {
 			m_logger.error(e.getMessage(), e);
 			Cat.logError(e);
 			return false;

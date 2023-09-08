@@ -62,7 +62,7 @@ public class EventReportBuilder implements TaskBuilder {
 			report.setType(1);
 			byte[] binaryContent = DefaultNativeBuilder.build(eventReport);
 			return m_reportService.insertDailyReport(report, binaryContent);
-		} catch (Exception e) {
+		} catch (Throwable e) {
 			Cat.logError(e);
 			return false;
 		}
