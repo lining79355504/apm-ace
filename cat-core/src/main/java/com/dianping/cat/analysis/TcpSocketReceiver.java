@@ -166,6 +166,7 @@ public final class TcpSocketReceiver implements LogEnabled {
 	public class ExceptionCaughtHandler extends ChannelInboundHandlerAdapter {
 		@Override
 		public void exceptionCaught(ChannelHandlerContext ctx, Throwable cause) throws Exception {
+			//出现粘包等异常时  不处理会导致 java.lang.OutOfMemoryError: Direct buffer memory
 			ctx.channel().disconnect();
 			m_logger.error(cause.getMessage(), cause);
 		}
