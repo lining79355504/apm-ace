@@ -5,12 +5,7 @@ import com.dianping.cat.message.spi.codec.NativeMessageCodec;
 import io.netty.bootstrap.ServerBootstrap;
 import io.netty.buffer.ByteBuf;
 import io.netty.buffer.PooledByteBufAllocator;
-import io.netty.channel.ChannelFuture;
-import io.netty.channel.ChannelHandlerContext;
-import io.netty.channel.ChannelInitializer;
-import io.netty.channel.ChannelOption;
-import io.netty.channel.ChannelPipeline;
-import io.netty.channel.EventLoopGroup;
+import io.netty.channel.*;
 import io.netty.channel.epoll.EpollEventLoopGroup;
 import io.netty.channel.epoll.EpollServerSocketChannel;
 import io.netty.channel.nio.NioEventLoopGroup;
@@ -107,6 +102,8 @@ public final class TcpSocketReceiver implements LogEnabled {
 				ChannelPipeline pipeline = ch.pipeline();
 
 				pipeline.addLast("decode", new MessageDecoder());
+				//exception handle
+				pipeline.addLast(new ExceptionCaughtHandler());
 			}
 		});
 
@@ -163,6 +160,14 @@ public final class TcpSocketReceiver implements LogEnabled {
 				m_serverStateManager.addMessageTotalLoss(1);
 				m_logger.error(e.getMessage(), e);
 			}
+		}
+	}
+
+	public class ExceptionCaughtHandler extends ChannelInboundHandlerAdapter {
+		@Override
+		public void exceptionCaught(ChannelHandlerContext ctx, Throwable cause) throws Exception {
+			ctx.channel().disconnect();
+			m_logger.error(cause.getMessage(), cause);
 		}
 	}
 
